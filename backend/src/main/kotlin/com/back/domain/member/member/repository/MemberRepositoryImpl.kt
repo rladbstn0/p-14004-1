@@ -131,4 +131,34 @@ class MemberRepositoryImpl(
             totalQuery.fetchFirst().getOrThrow()
         }
     }
+
+    override fun findQByNicknameContainingOrderByIdDesc(nickname: String): List<Member> {
+        val member = QMember.member
+
+        return queryFactory
+            .selectFrom(member)
+            .where(member.nickname.contains(nickname))
+            .orderBy(member.id.desc())
+            .fetch()
+    }
+
+    override fun findQByUsernameContaining(username: String, pageable: Pageable): Page<Member> {
+        val member = QMember.member
+
+        val results = queryFactory
+            .selectFrom(member)
+            .where(member.username.contains(username))
+            .offset(pageable.offset)
+            .limit(pageable.pageSize.toLong())
+            .fetch()
+
+        val totalQuery = queryFactory
+            .select(member.count())
+            .from(member)
+            .where(member.username.contains(username))
+
+        return PageableExecutionUtils.getPage(results, pageable) {
+            totalQuery.fetchFirst().getOrThrow()
+        }
+    }
 }
