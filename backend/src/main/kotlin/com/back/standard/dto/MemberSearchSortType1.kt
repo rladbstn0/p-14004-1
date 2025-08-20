@@ -1,6 +1,7 @@
 package com.back.standard.dto
 
 import com.back.standard.extensions.toCamelCase
+import org.springframework.data.domain.Sort
 
 enum class MemberSearchSortType1 {
     ID,
@@ -9,6 +10,12 @@ enum class MemberSearchSortType1 {
     USERNAME_ASC,
     NICKNAME,
     NICKNAME_ASC;
+
+    val sortBy by lazy {
+        Sort.by(
+            if (isAsc) Sort.Direction.ASC else Sort.Direction.DESC, property
+        )
+    }
 
     val property by lazy {
         name.removeSuffix("_ASC").toCamelCase()
