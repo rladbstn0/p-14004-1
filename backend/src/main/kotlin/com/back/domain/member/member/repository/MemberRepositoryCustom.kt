@@ -1,6 +1,7 @@
 package com.back.domain.member.member.repository
 
 import com.back.domain.member.member.entity.Member
+import com.back.standard.dto.MemberSearchKeywordType1
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
@@ -29,5 +30,5 @@ interface MemberRepositoryCustom {
 
     fun findQByUsernameContaining(username: String, pageable: Pageable): Page<Member>
 
-    fun findQPagedByKw(kw: String, pageable: Pageable): Page<Member>
+    fun findQPagedByKw(kwType: MemberSearchKeywordType1, kw: String, pageable: Pageable): Page<Member>
 }
