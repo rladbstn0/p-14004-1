@@ -57,6 +57,5 @@ class PostRepositoryImpl(
         return PageableExecutionUtils.getPage(results, pageable) {
             totalQuery.fetchFirst() ?: 0L
         }
-
     }
 }
