@@ -5,15 +5,22 @@ import com.back.domain.member.member.entity.QMember
 import com.back.standard.dto.MemberSearchKeywordType1
 import com.back.standard.util.QueryDslUtil
 import com.querydsl.jpa.impl.JPAQueryFactory
+import jakarta.persistence.EntityManager
+import org.hibernate.Session
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.support.PageableExecutionUtils
-import org.springframework.stereotype.Repository
 
-@Repository
 class MemberRepositoryImpl(
-    private val queryFactory: JPAQueryFactory
+    private val queryFactory: JPAQueryFactory,
+    private val entityManager: EntityManager,
 ) : MemberRepositoryCustom {
+    override fun findByUsername(username: String): Member? {
+        return entityManager.unwrap(Session::class.java)
+            .byNaturalId(Member::class.java)
+            .using(Member::username.name, username)
+            .load()
+    }
 
     override fun findQById(id: Int): Member? {
         val member = QMember.member
@@ -188,11 +195,13 @@ class MemberRepositoryImpl(
 
         if (kw.isNotBlank()) {
             when (kwType) {
-                MemberSearchKeywordType1.USERNAME -> builder.and(member.username.contains(kw))
-                MemberSearchKeywordType1.NICKNAME -> builder.and(member.nickname.contains(kw))
-                else -> {
-                    builder.and(member.username.contains(kw).or(member.nickname.contains(kw)))
-                }
+                MemberSearchKeywordType1.USERNAME -> builder.and(member.username.containsIgnoreCase(kw))
+                MemberSearchKeywordType1.NICKNAME -> builder.and(member.nickname.containsIgnoreCase(kw))
+                MemberSearchKeywordType1.ALL ->
+                    builder.and(
+                        member.username.containsIgnoreCase(kw)
+                            .or(member.nickname.containsIgnoreCase(kw))
+                    )
             }
         }
 

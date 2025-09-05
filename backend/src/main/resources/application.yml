@@ -62,12 +62,12 @@ spring:
             user-name-attribute: response
 springdoc:
   default-produces-media-type: application/json;charset=UTF-8
-#logging:
-#  level:
-#    org.hibernate.orm.jdbc.bind: TRACE
-#    org.hibernate.orm.jdbc.extract: TRACE
-#    org.springframework.transaction.interceptor: TRACE
-#    com.back: DEBUG
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: TRACE
+    org.hibernate.orm.jdbc.extract: TRACE
+    org.springframework.transaction.interceptor: TRACE
+    com.back: DEBUG
 custom:
   jwt:
     secretKey: ${CUSTOM__JWT__SECRET_KEY}

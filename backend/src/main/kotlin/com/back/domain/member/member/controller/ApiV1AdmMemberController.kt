@@ -28,8 +28,8 @@ class ApiV1AdmMemberController(
         @RequestParam(defaultValue = "5") pageSize: Int,
         @RequestParam(defaultValue = "ALL") kwType: MemberSearchKeywordType1,
         @RequestParam(defaultValue = "") kw: String,
-        @RequestParam(defaultValue = "ID") sort: MemberSearchSortType1
-    ): PageDto<MemberWithUsernameDto?> {
+        @RequestParam(defaultValue = "ID") sort: MemberSearchSortType1,
+    ): PageDto<MemberWithUsernameDto> {
         val page: Int = if (page >= 1) {
             page
         } else {
@@ -46,7 +46,8 @@ class ApiV1AdmMemberController(
 
         return PageDto(
             memberPage
-                .map { member -> MemberWithUsernameDto(member) })
+                .map { member -> MemberWithUsernameDto(member) }
+        )
     }
 
     @GetMapping("/{id}")

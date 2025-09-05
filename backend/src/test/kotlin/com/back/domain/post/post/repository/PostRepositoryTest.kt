@@ -1,5 +1,6 @@
 package com.back.domain.post.post.repository
 
+
 import com.back.standard.dto.PostSearchKeywordType1
 import com.back.standard.dto.PostSearchSortType1
 import org.assertj.core.api.Assertions.assertThat
@@ -42,7 +43,7 @@ class PostRepositoryTest {
     @DisplayName("findQPagedByKw, kwType=PostSearchKeywordType1.AUTHOR_NICKNAME")
     fun t2() {
         val postPage = postRepository.findQPagedByKw(
-            PostSearchKeywordType1.AUTHOR_NICKNAME,
+            PostSearchKeywordType1.AUTHOR_NAME,
             "유저",
             PageRequest.of(
                 0,
@@ -54,5 +55,8 @@ class PostRepositoryTest {
         val content = postPage.content
 
         assertThat(content).isNotEmpty
+        assertThat(content).allMatch { post ->
+            post.author.name.contains("유저", ignoreCase = true)
+        }
     }
 }

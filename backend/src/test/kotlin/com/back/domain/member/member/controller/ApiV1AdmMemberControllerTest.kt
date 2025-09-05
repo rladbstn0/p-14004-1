@@ -48,7 +48,8 @@ class ApiV1AdmMemberControllerTest {
         for (i in members.indices) {
             val member = members[i]
             resultActions
-                .andExpect(jsonPath("$.content[$i].id").value(member.id))                .andExpect(
+                .andExpect(jsonPath("$.content[$i].id").value(member.id))
+                .andExpect(
                     jsonPath("$.content[$i].createDate")
                         .value(Matchers.startsWith(member.createDate.toString().take(20)))
                 )

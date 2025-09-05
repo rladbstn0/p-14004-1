@@ -11,9 +11,10 @@ data class PageableDto(
     val numberOfElements: Int,
     val sorted: Boolean,
 )
+
 data class PageDto<T>(
     val content: List<T>,
-    val pageble: PageableDto
+    val pageable: PageableDto
 ) {
     constructor(page: Page<T>) : this(
         page.content,

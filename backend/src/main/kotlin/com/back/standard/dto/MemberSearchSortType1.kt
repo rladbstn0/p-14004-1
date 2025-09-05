@@ -13,7 +13,8 @@ enum class MemberSearchSortType1 {
 
     val sortBy by lazy {
         Sort.by(
-            if (isAsc) Sort.Direction.ASC else Sort.Direction.DESC, property
+            if (isAsc) Sort.Direction.ASC else Sort.Direction.DESC,
+            property
         )
     }
 
@@ -22,6 +23,6 @@ enum class MemberSearchSortType1 {
     }
 
     val isAsc by lazy {
-        this.name.endsWith("_ASC")
+        name.endsWith("_ASC")
     }
 }

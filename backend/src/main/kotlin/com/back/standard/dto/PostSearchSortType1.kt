@@ -5,11 +5,14 @@ import org.springframework.data.domain.Sort
 
 enum class PostSearchSortType1 {
     ID,
-    ID_ASC;
+    ID_ASC,
+    AUTHOR_NAME,
+    AUTHOR_NAME_ASC;
 
     val sortBy by lazy {
         Sort.by(
-            if (isAsc) Sort.Direction.ASC else Sort.Direction.DESC, property
+            if (isAsc) Sort.Direction.ASC else Sort.Direction.DESC,
+            property
         )
     }
 
@@ -18,6 +21,6 @@ enum class PostSearchSortType1 {
     }
 
     val isAsc by lazy {
-        this.name.endsWith("_ASC")
+        name.endsWith("_ASC")
     }
 }
